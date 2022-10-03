@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import os
-import pandas as pd
 from Bio import SeqIO
 import argparse
 
