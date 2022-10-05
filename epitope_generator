@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+import os
+from Bio import SeqIO
+import argparse
+
+parser = argparse.ArgumentParser(description='Cut protein fasta into list of eptiopes with defined size', epilog= "This code was written by Bart Cuypers and Alessandro Brozzi. Please make a comment in the GitHub repository for support.")
+parser.add_argument('Protein_FASTA', metavar='allproteins-fasta', type=str,
+                    help='concatenated FASTA file with all proteins')
+parser.add_argument('-w', metavar='window', type=float, default = 15,
+                    help='[Window size')
+
+args = vars(parser.parse_args())
+
+window = int(args['w'])
+
+# Make dict with protein names as keys, and strain names as values
+protein_strain = {}
+# Make set with all strain names
+allstrains = set([])
+fasta_sequences = SeqIO.parse(args['Protein_FASTA'],'fasta')
+with open ('epitopes.txt', 'w') as mywritefile:
+    for protein in fasta_sequences:
+        print('>' + protein.description)
+        for i in range(0,(len(protein)-window + 1)):
+            print(protein[(0 + i):(window + i)].seq)
